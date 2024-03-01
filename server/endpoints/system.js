@@ -109,6 +109,21 @@ function systemEndpoints(app) {
 
       if (await SystemSettings.isMultiUserMode()) {
         const { username, password } = reqBody(request);
+        if ( typeof username !== 'string') {
+            await EventLogs.logEvent(
+              "failed_login_invalid_username",
+              {
+                ip: request.ip || "Unknown IP",
+                username: username || "Unknown user",
+              }
+              );
+          response.status(200).json({
+            user: null,
+            valid: false,
+            token: null,
+            message: "[001] Invalid login credentials.",
+          });
+        }
         const existingUser = await User.get({ username });
 
         if (!existingUser) {
