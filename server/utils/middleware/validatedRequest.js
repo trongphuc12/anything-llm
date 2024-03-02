@@ -38,7 +38,7 @@ async function validatedRequest(request, response, next) {
 
   const bcrypt = require("bcrypt");
   const { p } = decodeJWT(token);
-  if (!bcrypt.compareSync(p, bcrypt.hashSync(process.env.AUTH_TOKEN, 10))) {
+  if ( p == null || !bcrypt.compareSync(p, bcrypt.hashSync(process.env.AUTH_TOKEN, 10))) {
     response.status(401).json({
       error: "Invalid auth token found.",
     });
