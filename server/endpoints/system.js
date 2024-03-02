@@ -377,6 +377,7 @@ function systemEndpoints(app) {
           true
         );
         if (process.env.NODE_ENV === "production") await dumpENV();
+        await ApiKey.delete({});
         response.status(200).json({ success: !error, error });
       } catch (e) {
         console.log(e.message, e);
@@ -423,6 +424,7 @@ function systemEndpoints(app) {
         await Telemetry.sendTelemetry("enabled_multi_user_mode", {
           multiUserMode: true,
         });
+        await ApiKey.delete({});
         await EventLogs.logEvent("multi_user_mode_enabled", {}, user?.id);
         response.status(200).json({ success: !!user, error });
       } catch (e) {
