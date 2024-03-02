@@ -424,7 +424,6 @@ function systemEndpoints(app) {
           multiUserMode: true,
         });
         await EventLogs.logEvent("multi_user_mode_enabled", {}, user?.id);
-        await ApiKey.delete({});
         response.status(200).json({ success: !!user, error });
       } catch (e) {
         await User.delete({});
